@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import FormScreen from './Screens/FormScreen';
+import FormScreen from './Screens/Form/FormScreen';
 import ListScreen from './Screens/ListScreen';
 
 const Stack = createStackNavigator();
