@@ -117,24 +117,28 @@ const FormScreen = ({ route, navigation }) => {
       try {
         let storedData = await AsyncStorage.getItem("formData");
         storedData = storedData ? JSON.parse(storedData) : [];
-  
+        
         const { itemToEdit, itemIndex } = route.params || {};
-  
+    
         if (itemToEdit) {
           // Update existing item
-          storedData[itemIndex] = { ...form, resume: null }; // Exclude resume
+          const updatedData = storedData.map((item, index) =>
+            index === itemIndex ? { ...form, resume: null } : item
+          );
+          await AsyncStorage.setItem("formData", JSON.stringify(updatedData));
         } else {
           // Add new item
           storedData.push({ ...form, resume: null }); // Exclude resume
+          await AsyncStorage.setItem("formData", JSON.stringify(storedData));
         }
-  
-        await AsyncStorage.setItem("formData", JSON.stringify(storedData));
+    
         Alert.alert("Form submitted successfully!");
         navigation.navigate("List");
       } catch (error) {
         console.log(error);
       }
     };
+    
   
     return (
       <ScrollView contentContainerStyle={styles.container}>
@@ -190,8 +194,24 @@ const FormScreen = ({ route, navigation }) => {
   <Text style={styles.subTitle}>Date of birth</Text>
   <Text style={styles.subTitleTwo}> *</Text>
 </View>
+
+{  showPicker  && Platform.OS === "ios" && (
+
+<View  style={{flexDirection:"row",  justifyContent:"space-around" }}>
+
+<TouchableOpacity  style={{width:wp(20)}}  onPress={toggleDatePicker}>
+
+  <Text>  Cancel </Text>
+</TouchableOpacity>
+</View>
+)
+
+}
+
+
+
         {!showPicker && (
-          <Pressable onPress={toggleDatePicker}>
+          <Pressable onPress={toggleDatePicker  }>
             <View style={styles.inputContainerTwo} accessible={true}>
               <Text style={styles.dateodBirth}>
                 {selectedDate || "Pick a Date"}
@@ -216,6 +236,8 @@ const FormScreen = ({ route, navigation }) => {
             display="spinner"
             value={date}
             onChange={onChange}
+  style={styles.datePicker}
+
           />
         )}
   

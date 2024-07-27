@@ -4,36 +4,36 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListScreen = ({ navigation }) => {
     const [data, setData] = useState([]);
-
+  
     useEffect(() => {
       const fetchData = async () => {
         try {
-          let storedData = await AsyncStorage.getItem('formData');
+          let storedData = await AsyncStorage.getItem("formData");
           storedData = storedData ? JSON.parse(storedData) : [];
           setData(storedData);
         } catch (error) {
           console.log(error);
         }
       };
-
+  
       fetchData();
     }, []);
-
+  
     const handleDelete = async (index) => {
       try {
-        let storedData = await AsyncStorage.getItem('formData');
+        let storedData = await AsyncStorage.getItem("formData");
         storedData = JSON.parse(storedData);
         storedData.splice(index, 1);
-        await AsyncStorage.setItem('formData', JSON.stringify(storedData));
+        await AsyncStorage.setItem("formData", JSON.stringify(storedData));
         setData(storedData);
       } catch (error) {
         console.log(error);
       }
     };
-
+  
     const handleEdit = (item, index) => {
       if (item) {
-        navigation.navigate('Form', {
+        navigation.navigate("Form", {
           itemToEdit: item,
           itemIndex: index,
         });
@@ -41,27 +41,27 @@ const ListScreen = ({ navigation }) => {
         Alert.alert("Error", "Item is null or undefined.");
       }
     };
-
+  
     const renderItem = ({ item, index }) => {
       if (!item) {
         return null; // Skip rendering if item is null or undefined
       }
-
+  
       return (
         <View style={styles.item}>
           <Text>{item.firstName} {item.lastName}</Text>
           <View style={styles.buttonGroup}>
-          <TouchableOpacity style={styles.button} onPress={() => handleEdit(item, index)}>
-          <Text style={styles.buttonText}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => handleDelete(index)}>
-          <Text style={styles.buttonText}>Delete</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => handleEdit(item, index)}>
+              <Text style={styles.buttonText}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => handleDelete(index)}>
+              <Text style={styles.buttonText}>Delete</Text>
+            </TouchableOpacity>
           </View>
         </View>
       );
     };
-
+  
     return (
       <View style={styles.container}>
         <FlatList
@@ -72,7 +72,6 @@ const ListScreen = ({ navigation }) => {
       </View>
     );
   };
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

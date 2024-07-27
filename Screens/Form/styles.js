@@ -198,6 +198,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
   },
+  datePicker:{
+      height:120,
+      marginTop:-10
+  }
 });
 
 export default styles;
