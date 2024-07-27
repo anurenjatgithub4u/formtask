@@ -138,6 +138,28 @@ const FormScreen = ({ route, navigation }) => {
         console.log(error);
       }
     };
+
+
+    const handleReset = () => {
+      setForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        contact: "",
+        dob: "",
+        gender: "",
+        subject: [],
+        resume: null,
+        url: "",
+        choice: "",
+        about: "",
+      });
+      setSelectedDate("");
+      setDate(new Date());
+      setShowPicker(false);
+      setFileName("No files selected");
+      setSelectedValue("");
+    };
     
   
     return (
@@ -364,7 +386,7 @@ const FormScreen = ({ route, navigation }) => {
           <Text style={styles.submitButtonText}>Submit</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+        <TouchableOpacity style={styles.submitButton} onPress={handleReset}>
           <Text style={styles.submitButtonText}>Reset</Text>
         </TouchableOpacity>
         </View>
